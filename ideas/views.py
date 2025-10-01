@@ -109,11 +109,3 @@ class IdeaDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == idea.author
     
 from django.http import HttpResponse
-
-def create_superuser_view(request):
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-    if not User.objects.filter(is_superuser=True).exists():
-        User.objects.create_superuser('admin', 'admin@example.com', 'adminpass')
-        return HttpResponse("管理者アカウント 'admin' が作成されました。パスワードは 'adminpass' です。")
-    return HttpResponse("管理者アカウントは既に存在します。")
