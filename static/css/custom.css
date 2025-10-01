@@ -53,3 +53,7 @@ h1 {
   max-width: 250px;
   height: auto;
 }
+
+h1 {
+  color: purple;
+}
