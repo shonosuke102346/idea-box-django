@@ -1,0 +1,30 @@
+{% extends 'ideas/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        {% if form.instance.pk %}
+            <h1 class="mb-4">アイデアを編集</h1>
+        {% else %}
+            <h1 class="mb-4">新しいアイデアを投稿</h1>
+        {% endif %}
+        
+        <div class="card">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    {{ form.as_p }}
+
+                    {% if form.instance.pk %}
+                        <button type="submit" class="btn btn-primary">更新する</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-primary">投稿する</button>
+                    {% endif %}
+                    <a href="{% url 'idea_list' %}" class="btn btn-secondary">キャンセル</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

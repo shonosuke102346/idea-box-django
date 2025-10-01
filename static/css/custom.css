@@ -1,0 +1,55 @@
+/* custom.css */
+h1 {
+  color: #000000;
+}
+
+.bg-dark {
+  background-color: #a40000 !important; /* 紫色に上書き */
+}
+
+/* custom.css */
+
+.navbar-brand {
+    /* 文字サイズを指定します */
+    /* 単位には px (ピクセル) や rem (相対単位) などが使われます */
+    font-size: 1.5rem; /* 例: 標準より少し大きめに */
+    
+    /* 以前の回答で色を指定した場合、その内容と合わせて記述します */
+    color: #ffffff; /* 色の指定（例）*/ 
+}
+
+/* static/css/custom.css */
+
+.navbar-brand {
+    font-family: "Rampart One", sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    font-style: normal;
+}
+
+.mb-0 {
+   font-family: "BIZ UDGothic", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* ロゴ画像のサイズ調整 */
+.logo-icon {
+    height: 3rem; /* 高さ（文字サイズに合わせる） */
+    width: auto;
+    margin-right: 5px; /* アイコンとテキストの間に少しスペースを開ける */
+    
+    /* 垂直方向の位置を調整して、文字と揃える */
+    vertical-align: text-bottom; 
+}
+
+.navbar-text {
+  color:#ffffff;
+}
+
+/* static/css/custom.css */
+
+.list-thumbnail {
+  max-width: 250px;
+  height: auto;
+}

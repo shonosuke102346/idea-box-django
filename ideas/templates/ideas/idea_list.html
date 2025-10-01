@@ -1,0 +1,49 @@
+{% extends 'ideas/base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">アイデア一覧</h1>
+    <a href="{% url 'idea_create' %}" class="btn btn-primary">新しいアイデアを投稿する</a>
+</div>
+
+<div class="mb-4">
+    <form method="get" action="{% url 'idea_list' %}">
+        <div class="input-group">
+            <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" placeholder="キーワードで検索...">
+            <button class="btn btn-outline-secondary" type="submit">検索</button>
+        </div>
+    </form>
+</div>
+
+{% for idea in ideas %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <a href="{% url 'idea_detail' idea.pk %}" class="text-decoration-none text-dark">
+                <h5 class="card-title">{{ idea.title }}</h5>
+            </a>
+            {% if idea.image %}
+                <img src="{{ idea.image.url }}" class="img-fluid rounded my-2 list-thumbnail" alt="{{ idea.title }}">
+            {% endif %}
+            <p class="card-text">{{ idea.content | linebreaksbr }}</p>
+            <p class="card-text">
+                <small class="text-muted">投稿者: {{ idea.author.username }} | 投稿日: {{ idea.created_at }}</small>
+            </p>
+            
+            <div class="d-flex align-items-center">
+                {% if user.is_authenticated %}
+                    <form action="{% url 'like_idea' idea.id %}" method="post" class="me-3">
+                        {% csrf_token %}
+                        {% if user in idea.likes.all %}
+                            <button type="submit" class="btn btn-danger btn-sm">💔 いいねを取り消す</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm">👍 いいね！</button>
+                        {% endif %}
+                    </form>
+                {% endif %}
+                <span class="text-danger">いいね！ {{ idea.likes.count }}</span>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}

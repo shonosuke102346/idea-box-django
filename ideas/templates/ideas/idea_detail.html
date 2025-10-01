@@ -1,0 +1,75 @@
+{% extends 'ideas/base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title mb-0">{{ idea.title }}</h2>
+    </div>
+    <div class="card-body">
+        
+        {% if idea.image %}
+            <img src="{{ idea.image.url }}" class="img-fluid rounded mb-3" alt="{{ idea.title }}">
+        {% endif %}
+        {% if idea.video %}
+            <div class="ratio ratio-16x9 mb-3">
+                <video src="{{ idea.video.url }}" controls></video>
+            </div>
+        {% endif %}
+
+        <p class="card-text">{{ idea.content | linebreaksbr }}</p>
+        <hr>
+        <p class="card-text">
+            <small class="text-muted">投稿者: {{ idea.author.username }} | 投稿日: {{ idea.created_at|date:"Y/m/d H:i" }}</small>
+        </p>
+        
+        <div class="d-flex align-items-center">
+            {% if user.is_authenticated %}
+                <form action="{% url 'like_idea' idea.id %}" method="post" class="me-3">
+                    {% csrf_token %}
+                    {% if user in idea.likes.all %}
+                        <button type="submit" class="btn btn-danger btn-sm">💔 いいねを取り消す</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-outline-danger btn-sm">👍 いいね！</button>
+                    {% endif %}
+                </form>
+            {% endif %}
+            <span class="text-danger">いいね！ {{ idea.likes.count }}</span>
+        </div>
+    </div>
+
+    <div class="card-body border-top">
+        <h5 class="card-title">コメント</h5>
+        {% for comment in idea.comment_set.all %}
+            <div class="mb-3 border-bottom pb-2">
+                <strong>{{ comment.author.username }}</strong>
+                <small class="text-muted">{{ comment.created_at|date:"Y/m/d H:i" }}</small>
+                <p class="mb-0">{{ comment.text|linebreaksbr }}</p>
+            </div>
+        {% empty %}
+            <p>コメントはまだありません。</p>
+        {% endfor %}
+        
+        {% if user.is_authenticated %}
+            <hr>
+            <h6>コメントを投稿する</h6>
+            <form method="post" action="{% url 'idea_detail' idea.pk %}">
+                {% csrf_token %}
+                <div class="mb-2">
+                    {{ comment_form.text }}
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">コメントする</button>
+            </form>
+        {% endif %}
+    </div>
+
+    <div class="card-footer d-flex justify-content-between align-items-center">
+        <a href="{% url 'idea_list' %}" class="btn btn-secondary">一覧に戻る</a>
+        {% if user == idea.author %}
+            <div>
+                <a href="{% url 'idea_update' idea.pk %}" class="btn btn-info">編集する</a>
+                <a href="{% url 'idea_delete' idea.pk %}" class="btn btn-danger">削除する</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

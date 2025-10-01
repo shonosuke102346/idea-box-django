@@ -1,0 +1,20 @@
+{% extends 'ideas/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1 class="mb-4">アイデアを削除</h1>
+        <div class="card">
+            <div class="card-body">
+                <p>本当に「<strong>{{ idea.title }}</strong>」を削除しますか？</p>
+                <p>この操作は元に戻せません。</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">はい、削除します</button>
+                    <a href="{% url 'idea_detail' idea.pk %}" class="btn btn-secondary">キャンセル</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
